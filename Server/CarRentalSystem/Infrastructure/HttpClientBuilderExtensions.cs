@@ -12,6 +12,7 @@
 
     public static class HttpClientBuilderExtensions
     {
+        public static Random jitterer = new Random();
         public static void WithConfiguration(
             this IHttpClientBuilder httpClientBuilder,
             string baseAddress)
@@ -39,8 +40,9 @@
                 })
                 .AddTransientHttpErrorPolicy(policy => policy
                     .OrResult(result => result.StatusCode == HttpStatusCode.NotFound)
-                    .WaitAndRetryAsync(5, retry => TimeSpan.FromSeconds(Math.Pow(2, retry))))
-                .AddTransientHttpErrorPolicy(policy => policy
-                    .CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
+                    .WaitAndRetryAsync(5, retry => TimeSpan.FromSeconds(Math.Pow(2, retry))
+                                                  + TimeSpan.FromMilliseconds(jitterer.Next(0, 100)));
+        //            .AddTransientHttpErrorPolicy(policy => policy
+        //                .CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
     }
 }

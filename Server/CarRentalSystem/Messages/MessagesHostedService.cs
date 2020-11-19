@@ -10,7 +10,7 @@
     using Microsoft.Extensions.Hosting;
     using Services.Messages;
 
-    public class MessagesHostedService : IHostedService
+    public class MessagesHostedService : IHostedService // background worker
     {
         private readonly IRecurringJobManager recurringJob;
         private readonly IServiceScopeFactory serviceScopeFactory;
@@ -34,7 +34,7 @@
 
             if (!data.Database.CanConnect())
             {
-                data.Database.Migrate();
+                data.Database.Migrate(); // ensure background job hits the db first, before any endpoint
             }
 
             this.recurringJob.AddOrUpdate(

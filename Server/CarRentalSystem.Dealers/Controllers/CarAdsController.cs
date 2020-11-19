@@ -25,7 +25,7 @@
         private readonly ICurrentUserService currentUser;
 
         public CarAdsController(
-            ICarAdService carAds, 
+            ICarAdService carAds,
             IDealerService dealers,
             ICategoryService categories,
             IManufacturerService manufacturers,
@@ -94,11 +94,13 @@
 
             var message = new CarAdCreatedMessage
             {
-                CarAdId = carAd.Id,
+                CarAdId = carAd.Id, // HiLo in CarAdConfiguration
                 Manufacturer = carAd.Manufacturer.Name,
                 Model = carAd.Model,
                 PricePerDay = carAd.PricePerDay
             };
+
+            // TransactionSope
 
             await this.carAds.Save(message);
 

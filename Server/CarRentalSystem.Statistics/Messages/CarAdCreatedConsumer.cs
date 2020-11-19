@@ -37,7 +37,7 @@
 
             var statistics = await this.data.Statistics.SingleOrDefaultAsync();
 
-            statistics.TotalCarAds++;
+            statistics.TotalCarAds++; // Todo thread safe
 
             var dataMessage = new Message(message);
 

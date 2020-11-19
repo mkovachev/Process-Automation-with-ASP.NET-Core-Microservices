@@ -165,7 +165,7 @@
                             host.Username(messageQueueSettings.UserName);
                             host.Password(messageQueueSettings.Password);
                         });
-                        
+
                         rmq.UseHealthCheck(context);
 
                         consumers.ForEach(consumer => rmq.ReceiveEndpoint(consumer.FullName, endpoint =>
@@ -217,6 +217,7 @@
                 settings.GetValue<string>(nameof(MessageQueueSettings.Password)));
         }
 
+        // manual update due to conflict with EF
         private static void CreateHangfireDatabase(IConfiguration configuration)
         {
             var connectionString = configuration.GetCronJobsConnectionString();
